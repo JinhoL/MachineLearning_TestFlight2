@@ -26,17 +26,21 @@ class FCNNetwork:
 		self.layer = []
 		self.loss = None
 		self.input_size = x.shape[1]
-		print( '\tinput size: ', self.input_size )
+		#print( '\tinput size: ', self.input_size )
 		self.output_size = output_size
 		self.weight = np.random.rand(self.input_size, self.output_size)
+		#print( '\tWeight result: ', self.weight )
 		self.output = np.zeros(self.output_size)
 		# self.bias = np.random.rand(1, self.output_size)
+		self.input = None
+		self.output = None
 
 
 	def forward(x_data):
 		# Initialization
 		print('\tforward')
-		WtX = np.dot(x_data, self.weight)
+		self.input = x_data
+		WtX = np.dot(self.input, self.weight)
 
 		# Activation function: SoftMax
 		self.output = softmax_forward(WtX)
@@ -115,9 +119,10 @@ def main():
 
 		print( 'size of batch_X: ', len(batch_X))
 
-		for x in range(batch_X):
-			print(x)
-			FCNN_layer.forward(x_data=x)
+		for i in range(len(batch_X)):
+			print( '\t\tshape of image: ', batch_X[i][0] )
+			print( '\t\tbatch_X: ', batch_X[i])
+			predict_result = FCNN_layer.forward(batch_X[i])
 		print( '\tPrediction: ', predict_result)
 		pos += BATCH_SIZE
 
