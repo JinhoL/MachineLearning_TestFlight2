@@ -20,20 +20,23 @@ def softmax_forward_stable(vector):
 	return out
 
 
-class NetworkLayer:
-	def __init__(self, X, output_size):
+# Fully Connected Neural Network
+class FCNNetwork:
+	def __init__(self, x, output_size):
 		self.layer = []
 		self.loss = None
-		self.input_size = X.shape[1]
+		self.input_size = x.shape[1]
+		print( '\tinput size: ', self.input_size )
 		self.output_size = output_size
 		self.weight = np.random.rand(self.input_size, self.output_size)
 		self.output = np.zeros(self.output_size)
 		# self.bias = np.random.rand(1, self.output_size)
 
 
-	def fully_connected_layer_forward(X):
+	def forward(x_data):
 		# Initialization
-		WtX = np.dot(X, self.weight)
+		print('\tforward')
+		WtX = np.dot(x_data, self.weight)
 
 		# Activation function: SoftMax
 		self.output = softmax_forward(WtX)
@@ -43,7 +46,7 @@ class NetworkLayer:
 		return self.output
 
 
-	def fully_connected_layer_backwrad():
+	def backwrad():
 		###  derivative of Loss w.r.t. w1
 		print('\tNot implemented yet..')
 
@@ -57,7 +60,6 @@ def cross_entropy(X, y):
 	#    y is not one-hot encoded vector
 
 	m = y.shape[0]
-	#p = softmax(X)
 
 	print('\trange: ', range(m))
 	log_like = -np.log(p[range(m), y])
@@ -98,17 +100,24 @@ def main():
 	print(images_train.shape)
 
 	BATCH_SIZE = 10
+	OUTPUT_SIZE = 10
 
-	predict_result = np.zeros(images_train.shape[1])
+	predict_result = np.zeros(OUTPUT_SIZE)
 
 	print( 'Train image size: ', len(images_train) )
 	print( 'iteration times: ', len(images_train)//BATCH_SIZE )
 
+	FCNN_layer = FCNNetwork(x=images_train, output_size=10)
+	
 	for pos in range( len(images_train)//BATCH_SIZE ):
 		batch_X = images_train[pos:pos+BATCH_SIZE]
 		batch_Y = labels_train[pos:pos+BATCH_SIZE]
-		FCL_net = NetworkLayer(X=batch_X, output_size=images_train[1])
-		predict_result = FCL_net.fully_connected_layer_forward(X)
+
+		print( 'size of batch_X: ', len(batch_X))
+
+		for x in range(batch_X):
+			print(x)
+			FCNN_layer.forward(x_data=x)
 		print( '\tPrediction: ', predict_result)
 		pos += BATCH_SIZE
 
