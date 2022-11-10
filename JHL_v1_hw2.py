@@ -24,12 +24,8 @@ class NetworkLayer:
 	def __init__(self, X, output_size):
 		self.layer = []
 		self.loss = None
-		self.loss_prime = None
 		self.input_size = X.shape[1]
 		self.output_size = output_size
-		self.weight = None
-		# self.bias = None
-		self.output = None
 		self.weight = np.random.rand(self.input_size, self.output_size)
 		self.output = np.zeros(self.output_size)
 		# self.bias = np.random.rand(1, self.output_size)
@@ -52,12 +48,10 @@ class NetworkLayer:
 		print('\tNot implemented yet..')
 
 	## 
-	def step():
+	#def step():
 
 
-
-
-def cross_entory(X, y):
+def cross_entropy(X, y):
 	# X: output from FNN(Fully-connected NN), (= num_examples x num_classes)
 	# y: label (= num_examples)
 	#    y is not one-hot encoded vector
@@ -77,6 +71,7 @@ def gradient_descent( gradient, x, y, start_point, learn_rate, n_iter, tolerance
 
 	for _ in range(n_iter):
 '''
+#def prediction(X, output_size):
 
 
 def main():
@@ -104,19 +99,17 @@ def main():
 
 	BATCH_SIZE = 10
 
+	predict_result = np.zeros(images_train.shape[1])
+
 	print( 'Train image size: ', len(images_train) )
 	print( 'iteration times: ', len(images_train)//BATCH_SIZE )
 
-	FCL_net = NetworkLayer(images_train, output_size=10)
-
 	for pos in range( len(images_train)//BATCH_SIZE ):
-		print( '\tStart point: ', start_pos )
 		batch_X = images_train[pos:pos+BATCH_SIZE]
-		batch_Y = lables_train[pos:pos+BATCH_SIZE]
-
-		predict = FCL_net.fully_connected_layer_forward(batch_X)
-		print( '\tPrediction: ', predict)
-
+		batch_Y = labels_train[pos:pos+BATCH_SIZE]
+		FCL_net = NetworkLayer(X=batch_X, output_size=images_train[1])
+		predict_result = FCL_net.fully_connected_layer_forward(X)
+		print( '\tPrediction: ', predict_result)
 		pos += BATCH_SIZE
 
 	'''
